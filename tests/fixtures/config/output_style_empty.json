@@ -1,0 +1,17 @@
+{
+  "name": "dev",
+  "kind": "interactive",
+  "model": "sonnet",
+  "effort": "medium",
+  "permissionMode": "acceptEdits",
+  "outputStyle": "",
+  "allowedTools": [
+    "Read",
+    "Edit",
+    "Bash"
+  ],
+  "skills": [
+    "swiftui-expert-skill"
+  ],
+  "instructionFile": "dev.md"
+}

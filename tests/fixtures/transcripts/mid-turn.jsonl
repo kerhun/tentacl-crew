@@ -1,0 +1,8 @@
+{"type":"queue-operation","operation":"enqueue","timestamp":"2026-10-20T15:52:58.493Z","sessionId":"s","content":"fix that line, then run the tests"}
+{"parentUuid":"p1","isSidechain":false,"type":"assistant","uuid":"a1","timestamp":"2026-10-20T15:52:59.000Z","message":{"role":"assistant","content":[{"type":"tool_use","id":"t1","name":"Bash","input":{"command":"ls"}}]}}
+{"parentUuid":"a1","isSidechain":false,"type":"user","uuid":"r1","timestamp":"2026-10-20T15:53:00.000Z","message":{"role":"user","content":[{"tool_use_id":"t1","type":"tool_result","content":"ok"}]}}
+{"type":"queue-operation","operation":"remove","timestamp":"2026-10-20T15:53:01.000Z","sessionId":"s","content":"fix that line, then run the tests"}
+{"parentUuid":"r1","isSidechain":false,"type":"attachment","uuid":"q1","timestamp":"2026-10-20T15:53:01.100Z","attachment":{"type":"queued_command","prompt":"fix that line, then run the tests","source_uuid":"28f70a5d","delivery_id":"d1","commandMode":"prompt","origin":{"kind":"human"}}}
+{"parentUuid":"q1","isSidechain":false,"type":"attachment","uuid":"q2","timestamp":"2026-10-20T15:53:02.000Z","attachment":{"type":"queued_command","prompt":"<task-notification>\n<task-id>b1</task-id>\n</task-notification>","commandMode":"task-notification","origin":{"kind":"task-notification"}}}
+{"parentUuid":"q2","isSidechain":false,"type":"attachment","uuid":"q3","timestamp":"2026-10-20T15:53:03.000Z","attachment":{"type":"queued_command","prompt":"Panel: started N1.","commandMode":"prompt","origin":{"kind":"human"}}}
+{"parentUuid":"q3","isSidechain":false,"type":"attachment","uuid":"h1","timestamp":"2026-10-20T15:53:04.000Z","attachment":{"type":"hook_success","hookName":"x","content":""}}

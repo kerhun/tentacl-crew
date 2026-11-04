@@ -1,0 +1,24 @@
+
+ ▐▛███▛█   Claude Code v2.1.304
+▝▜██████▀  Haiku 5.5 · Claude Pro
+ ▝▝   ▝▝   /private/tmp/claude-501/n192scratch
+
+
+❯ Call the AskUserQuestion tool ONCE with exactly 3 questions (single select), headers Temizlik, Kurulum, Sıradaki; questions: Dosya silinsin mi? / Kurulsun mu? / Sıradaki iş hangisi? with 2-3 options each (Turkish labels like
+  Evet, yedekle ve sil / Hayır, kalsın). Do nothing else.
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+←  ☐ Temizlik  ☐ Kurulum  ☐ Sıradaki  ✔ Submit  →
+
+Sıradaki iş hangisi?
+
+❯ 1. Testleri çalıştır
+     Önce testleri çalıştır ve sonucu bildir.
+  2. Kodu incele
+     Değişiklikleri gözden geçir.
+  3. Kodu düzenle
+     Değişiklikleri uygulamaya geç.
+  4. Type something.
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  5. Chat about this
+
+Enter to select · Tab/Arrow keys to navigate · Esc to cancel

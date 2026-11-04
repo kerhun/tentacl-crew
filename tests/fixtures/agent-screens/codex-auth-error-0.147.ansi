@@ -1,0 +1,40 @@
+
+[0m[2m╭────────────────────────────────────────────────╮[0m
+[0m[2m│ >_ [0m[1mOpenAI Codex[0m[2m (v0.147.0)                     │[0m
+[0m[2m│                                                │[0m
+[0m[2m│ model:     [0mgpt-5.6-luna low[0m[2m   [0m[38;5;6m/model[0m[2m to change │[0m
+[0m[2m│ directory: [0m/private/tmp/…/scratchpad/codexrepo[0m[2m │[0m
+[0m[2m╰────────────────────────────────────────────────╯[0m
+
+  [0m[1mTip:[0m Our most capable model yet. GPT-5.6 Sol can tackle complex code changes, dig into research, produce polished
+  documents, and take on your most ambitious work. Sol is highly capable at lower reasoning efforts—try starting lower,
+  then turn it up for harder jobs.
+
+[0m[38;5;3m⚠ MCP client for `codex_apps` failed to start: MCP startup failed: handshaking with MCP server failed: Send message[0m
+  [0m[38;5;3merror Transport[0m
+  [0m[38;5;3m[rmcp::transport::worker::WorkerTransport<rmcp::transport::streamable_http_client::StreamableHttpClientWorker<codex_rm[0m
+  [0m[38;5;3mcp_client::http_client_adapter::StreamableHttpClientAdapter>>] error: unexpected server response: HTTP 401: {[0m
+  [0m[38;5;3m  "error": {[0m
+  [0m[38;5;3m    "message": "Could not parse your authentication token. Please try signing in again.",[0m
+  [0m[38;5;3m    "type": null,[0m
+  [0m[38;5;3m    "code": "unauthorized_unknown",[0m
+  [0m[38;5;3m    "param": null[0m
+  [0m[38;5;3m  },[0m
+  [0m[38;5;3m  "status": 401[0m
+  [0m[38;5;3m}, when send initialize request[0m
+
+[0m[38;5;3m⚠ MCP startup incomplete (failed: codex_apps)[0m
+
+
+[0m[1m[2m[48;2;57;57;57m› [0m[48;2;57;57;57mLine one: what is the secret word?                                                                                    [0m
+[0m[48;2;57;57;57m  Line two: how many lines did this message have?                                                                       [0m
+[0m[48;2;57;57;57m  Line three: answer in one sentence, do not run tools.                                                                 [0m
+
+
+[0m[38;5;1m■ Your access token could not be refreshed because your refresh token was already used. Please log out and sign in[0m
+[0m[38;5;1magain.[0m
+
+[0m[48;2;57;57;57m                                                                                                                        [0m
+[0m[1m[48;2;57;57;57m›[0m[48;2;57;57;57m [0m[2m[48;2;57;57;57mRun /review on my current changes[0m[48;2;57;57;57m                                                                                     [0m
+[0m[48;2;57;57;57m                                                                                                                        [0m
+  [0m[38;2;246;226;183mgpt-5.6-luna low[0m[2m · [0m[38;2;171;223;167m/private/tmp/claude-501/-Users-person-Documents-GitHub-agent-panel--agent-worktrees-task-n150/a13d…[0m

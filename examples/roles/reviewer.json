@@ -1,0 +1,17 @@
+{
+  "name": "reviewer",
+  "kind": "interactive",
+  "tool": "claude",
+  "model": "opus",
+  "effort": "high",
+  "permissionMode": "plan",
+  "outputStyle": "concise",
+  "allowedTools": [
+    "Read",
+    "Bash"
+  ],
+  "skills": [
+    "superpowers"
+  ],
+  "instructionFile": "reviewer.md"
+}

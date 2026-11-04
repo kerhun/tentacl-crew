@@ -1,0 +1,35 @@
+
+ ▐▛███▛█   Claude Code v2.1.302
+▝▜██████▀  Opus 5.5 · Claude Pro
+ ▝▝   ▝▝   /private/tmp/claude-501/n79cap
+
+
+❯ Use the AskUserQuestion tool once, with ONE question 'Which layout?' with 3 options (Compact, Wide, Split), each option having a short ASCII-art preview field. Do nothing else.
+
+⏺ User declined to answer questions
+  ⎿  · Which layout? (Compact / Wide / Split)
+
+✻ Sautéed for 5s · done 8:41 PM
+
+❯ Use the AskUserQuestion tool once with ONE question 'Which toppings?' with multiSelect true and options Cheese, Ham, Olives. Do nothing else.
+
+⏺ User declined to answer questions
+  ⎿  · Which toppings? (Cheese / Ham / Olives)
+
+✻ Cooked for 2s · done 8:41 PM
+
+❯ Use the AskUserQuestion tool once with TWO questions: 'Colour?' (Red, Green) and 'Size?' (Small, Large). Do nothing else.
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+←  ☐ Colour  ☐ Size  ✔ Submit  →
+
+Colour?
+
+❯ 1. Red
+     Red colour.
+  2. Green
+     Green colour.
+  3. Type something.
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  4. Chat about this
+
+Enter to select · Tab/Arrow keys to navigate · Esc to cancel

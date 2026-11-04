@@ -1,0 +1,17 @@
+──────────────────────────────────────────────────────────────────────────────────────────
+ ☐ Cleanup
+
+ The old build folder is 4 GB and nothing uses it. Remove it now, or keep it until the release?
+
+ critical: yes
+ user: Eski build klasörü 4 GB; şimdi silelim mi, yayına kadar kalsın mı?
+
+ ❯ 1. Keep it (Recommended)
+     Nothing is removed
+   2. Remove it
+     Frees 4 GB
+   3. Type something.
+
+   4. Chat about this
+
+ Enter to select · ↑/↓ to navigate · Esc to cancel

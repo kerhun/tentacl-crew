@@ -1,0 +1,8 @@
+.DS_Store
+tmp/
+.superpowers/
+app/build/
+**/xcuserdata/
+app/Signing.local.xcconfig
+app/build.log
+dist/

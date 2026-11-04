@@ -1,0 +1,8 @@
+// Code signing. By default the app is signed ad hoc ("-"), which changes the app's identity on every build, so macOS asks again for
+// access to folders such as Documents after each build. To keep the permission, create Signing.local.xcconfig (not committed) next to
+// this file with your own certificate, for example:
+//   CODE_SIGN_IDENTITY = Apple Development: you@example.com (CERTID1234)
+//   DEVELOPMENT_TEAM = TEAMID1234   (the OU in: security find-certificate -c "Apple Development" -p | openssl x509 -noout -subject)
+// `security find-identity -v -p codesigning` lists the certificates you have.
+CODE_SIGN_IDENTITY = -
+#include? "Signing.local.xcconfig"

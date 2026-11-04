@@ -1,0 +1,17 @@
+{
+  "name": "pm",
+  "kind": "interactive",
+  "tool": "claude",
+  "model": "opus",
+  "effort": "high",
+  "permissionMode": "manual",
+  "outputStyle": "concise",
+  "allowedTools": [
+    "Read",
+    "Bash"
+  ],
+  "skills": [
+    "superpowers"
+  ],
+  "instructionFile": "pm.md"
+}

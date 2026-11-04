@@ -1,0 +1,19 @@
+{
+  "id": "demo",
+  "name": "Demo",
+  "repoPath": "/tmp/demo",
+  "dataDir": "/tmp/demo-data",
+  "maxParallel": 4,
+  "buildCommand": "xcodebuild -scheme Demo build",
+  "simulator": {
+    "baseDevice": "iPhone 17 Pro"
+  },
+  "sharedFiles": [
+    "App/Resources/Localizable.xcstrings",
+    "project.yml"
+  ],
+  "openWith": "Xcode",
+  "copyFiles": [
+    ".git/config"
+  ]
+}

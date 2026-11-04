@@ -1,0 +1,25 @@
+{
+  "id": "myapp",
+  "name": "My App",
+  "repoPath": "/Users/you/Projects/MyApp",
+  "dataDir": "/Users/you/Notes/projects/myapp",
+  "maxParallel": 4,
+  "buildCommand": "xcodebuild -project MyApp.xcodeproj -scheme MyApp -destination 'id=$UDID' -derivedDataPath build/dd build",
+  "testCommand": "xcodebuild test -project MyApp.xcodeproj -scheme MyApp -destination 'id=$UDID'",
+  "xcodeProject": "MyApp.xcodeproj",
+  "simulator": {
+    "baseDevice": "iPhone 17 Pro"
+  },
+  "sharedFiles": [
+    "MyApp/Resources/Localizable.xcstrings",
+    "project.yml"
+  ],
+  "screenshots": true,
+  "copyFiles": [
+    "Signing.local.xcconfig"
+  ],
+  "openWith": "Xcode",
+  "roles": {
+    "dev": "/Users/you/Projects/MyApp-agents/roles/dev.json"
+  }
+}

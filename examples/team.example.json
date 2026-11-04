@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "members": [
+    { "role": "pm", "reportsTo": null },
+    { "role": "reviewer", "reportsTo": "pm" },
+    { "role": "dev", "reportsTo": "reviewer" },
+    { "role": "ui_dev", "reportsTo": "reviewer" }
+  ]
+}

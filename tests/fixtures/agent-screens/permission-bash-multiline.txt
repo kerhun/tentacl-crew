@@ -1,0 +1,20 @@
+⏺ Bash(for f in src/*.swift; do …)
+  ⎿  Waiting…
+──────────────────────────────────────────────────────────────────────────────────────────
+ Bash command
+
+   Check every Swift file under src for TODO markers and print the names of the files that
+   have one so the list can be pasted into the card's Report section under the heading
+   Findings
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+   for f in src/*.swift; do
+     if grep -q "TODO" "$f"; then
+       echo "$f has a TODO"
+     fi
+   done
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+ Do you want to proceed?
+ ❯ 1. Yes
+   2. Yes, and don't ask again for grep commands in /Users/dev/proj/.agent-worktrees/task-x
+   3. No
+ Esc to cancel · Tab to amend

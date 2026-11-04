@@ -1,0 +1,11 @@
+{
+  "id": "mytool",
+  "name": "My Tool",
+  "repoPath": "/Users/you/Projects/mytool",
+  "dataDir": "/Users/you/Notes/projects/mytool",
+  "maxParallel": 2,
+  "sharedFiles": [],
+  "buildCommand": "make test",
+  "testCommand": "make test",
+  "screenshots": false
+}

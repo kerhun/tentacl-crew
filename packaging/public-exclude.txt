@@ -1,0 +1,2 @@
+# gitignore-style patterns, one per line; paths left out of the public snapshot
+spikes/

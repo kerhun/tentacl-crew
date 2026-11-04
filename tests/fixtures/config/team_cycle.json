@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "members": [
+    {
+      "role": "a",
+      "reportsTo": "b"
+    },
+    {
+      "role": "b",
+      "reportsTo": "c"
+    },
+    {
+      "role": "c",
+      "reportsTo": "a"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "dev",
+  "kind": "interactive",
+  "tool": "claude",
+  "model": "sonnet",
+  "effort": "medium",
+  "permissionMode": "acceptEdits",
+  "outputStyle": "concise",
+  "allowedTools": [
+    "Read",
+    "Edit",
+    "Write",
+    "Bash"
+  ],
+  "skills": [
+    "swiftui-expert-skill",
+    "swift-concurrency",
+    "superpowers"
+  ],
+  "instructionFile": "dev.md"
+}

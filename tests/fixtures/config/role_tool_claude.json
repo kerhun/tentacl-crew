@@ -1,0 +1,12 @@
+{
+  "name": "dev",
+  "kind": "interactive",
+  "model": "sonnet",
+  "effort": "medium",
+  "permissionMode": "acceptEdits",
+  "outputStyle": "concise",
+  "allowedTools": [],
+  "skills": [],
+  "instructionFile": "dev.md",
+  "tool": "claude"
+}

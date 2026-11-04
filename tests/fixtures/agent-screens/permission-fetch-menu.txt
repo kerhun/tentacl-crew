@@ -1,0 +1,33 @@
+        content bye (trailing newline).                                                                                         │                                                                    ✕
+                                                                                                                                │                                                    source: Current ▾
+     Verification                                                                                                               │
+                                                                                                                                │
+     - cat hello.txt prints bye.                                                                                                │
+                                                                                                                                │
+⏺ Write(hello.txt)                                                                                                              │
+  ⎿  User rejected write to hello.txt                                                                                           │
+      1 bye                                                                                                                     │
+                                                                                                                                │
+  Read 1 file                                                                                                                   │
+                                                                                                                                │
+⏺ Write(hello.txt)                                                                                                              │
+  ⎿  User rejected write to hello.txt                                                                                           │
+      1 BYE                                                                                                                     │
+                                                                                                                                │
+✻ Brewed for 11s · done 11:22 PM                                                                                                │
+                                                                                                                                │                       No changes this session
+❯ Use the WebFetch tool right now on https://example.com asking for the h1 heading. No planning.                                │
+                                                                                                                                │
+⏺ Fetch(https://example.com)                                                                                                    │
+                                                                                                                                │
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────│
+ Fetch                                                                                                                          │
+ Claude wants to fetch content from example.com                                                                                 │
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+ url: https://example.com/                                                                                                      │
+ prompt: What is the h1 heading text?                                                                                           │
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+ Do you want to allow Claude to fetch this content?                                                                             │
+ ❯ 1. Yes                                                                                                                       │
+   2. Yes, and don't ask again for example.com                                                                                  │
+   3. No, and tell Claude what to do differently (esc)                                                                          │

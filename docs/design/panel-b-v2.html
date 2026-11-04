@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orchard Panel · taslak v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #14161b;
+    --rail: #101216;
+    --pane: #1a1d23;
+    --raise: #21252d;
+    --line: #2a2f39;
+    --ink: #e9ecf2;
+    --ink-2: #a2a9b8;
+    --ink-3: #6c7485;
+    --go: #4cc38a;
+    --work: #5aa2f0;
+    --wait: #e6b450;
+    --stop: #ef6b66;
+    --ask: #ff5a36;      /* yalnızca "senin kararını bekliyor" için */
+    --ask-ink: #1b0c07;
+    --r: 10px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--bg); color: var(--ink); font: 13px/1.45 'Instrument Sans', system-ui, sans-serif; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; }
+  .app { display: grid; grid-template-columns: 56px 300px minmax(0,1fr) 340px; grid-template-rows: 48px minmax(0,1fr); height: min(860px, 100vh); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+
+  /* üst çubuk */
+  .top { grid-column: 1 / -1; display: flex; align-items: center; gap: 18px; padding: 0 16px; background: var(--rail); border-bottom: 1px solid var(--line); }
+  .top .brand { font-weight: 700; letter-spacing: -.01em; }
+  .top .sp { flex: 1; }
+  .meter { display:flex; align-items:center; gap:8px; color: var(--ink-2); }
+  .meter .bar { width: 120px; height: 5px; border-radius: 3px; background: var(--raise); overflow: hidden; }
+  .meter .bar i { display:block; height:100%; width: 38%; background: var(--work); }
+  .askbadge { background: var(--ask); color: var(--ask-ink); font-weight: 700; border-radius: 99px; padding: 3px 11px; }
+
+  /* sol ray */
+  .rail { background: var(--rail); border-right: 1px solid var(--line); display:flex; flex-direction:column; align-items:center; gap: 6px; padding-top: 12px; }
+  .rail a { width: 36px; height: 36px; border-radius: 9px; display:grid; place-items:center; color: var(--ink-3); }
+  .rail a.on { background: var(--raise); color: var(--ink); }
+  .rail svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* görev listesi */
+  .list { background: var(--pane); border-right: 1px solid var(--line); overflow:auto; }
+  .list .head { padding: 14px 14px 8px; display:flex; justify-content:space-between; align-items:center; }
+  .list h2 { margin:0; font-size: 15px; letter-spacing:-.01em; }
+  .group { padding: 10px 14px 4px; color: var(--ink-3); display:flex; justify-content:space-between; font-weight:600; }
+  .task { display:grid; grid-template-columns: 14px 1fr auto; gap: 9px; align-items:start; padding: 9px 14px; cursor:pointer; border-left: 2px solid transparent; }
+  .task:hover { background: #1e222a; }
+  .task.on { background: var(--raise); border-left-color: var(--ask); }
+  .task .t { font-weight: 500; }
+  .task .m { color: var(--ink-3); margin-top: 1px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; display:inline-block; }
+  .dot.go { background: var(--go); } .dot.work { background: var(--work); } .dot.wait { background: var(--wait); } .dot.ask { background: var(--ask); box-shadow: 0 0 0 3px rgba(255,90,54,.22); } .dot.idle { background: var(--ink-3); }
+  .chip { font-size: 11px; padding: 1px 7px; border-radius: 99px; background: var(--raise); color: var(--ink-2); white-space: nowrap; }
+  .chip.ask { background: rgba(255,90,54,.16); color: #ff8e72; }
+
+  /* orta: inceleme */
+  .main { background: var(--bg); overflow:auto; min-width: 0; }
+  .main .hd { padding: 18px 26px 0; }
+  .crumbs { color: var(--ink-3); display:flex; gap: 10px; align-items:center; }
+  .main h1 { margin: 6px 0 4px; font-size: 22px; letter-spacing: -.02em; }
+  .sub { color: var(--ink-2); max-width: 70ch; }
+  .tabs { display:flex; gap: 22px; padding: 14px 26px 0; border-bottom: 1px solid var(--line); margin-top: 14px; }
+  .tabs a { padding-bottom: 10px; color: var(--ink-3); font-weight:500; }
+  .tabs a.on { color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink); }
+  .body { padding: 20px 26px 26px; display:grid; gap: 22px; }
+
+  .checks { display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
+  .check { background: var(--pane); border: 1px solid var(--line); border-radius: var(--r); padding: 10px 12px; }
+  .check b { display:block; font-size: 15px; margin-bottom: 2px; }
+  .check span { color: var(--ink-3); }
+  .ok b { color: var(--go); } .bad b { color: var(--wait); }
+
+  .shots { display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .shot h3 { margin: 0 0 8px; font-size: 12px; color: var(--ink-2); font-weight: 600; }
+  .phone { aspect-ratio: 402/874; border-radius: 26px; background: #fff; border: 6px solid #0a0b0d; position: relative; overflow:hidden; box-shadow: 0 10px 30px rgba(0,0,0,.35); color:#141210; font-size: 9px; }
+  .phone .st { display:flex; justify-content:space-between; padding: 8px 14px 0; font-weight:700; font-size: 9px; }
+  .phone .hdr { padding: 12px 12px 4px; font-weight:800; font-size: 14px; letter-spacing:-.02em; }
+  .phone .card { margin: 6px 10px; height: 118px; border-radius: 14px; background: linear-gradient(150deg,#ffd9c9,#ff8f6b); position:relative; }
+  .phone .card.b { background: linear-gradient(150deg,#dfe7ff,#8fa6f5); height: 70px; }
+  .phone .pill { position:absolute; left:8px; bottom:8px; background: rgba(20,18,16,.72); color:#fff; border-radius: 99px; padding: 2px 8px; font-size: 8px; font-weight:700; }
+  .phone .row { margin: 4px 10px; height: 26px; border-radius: 9px; background:#f2efec; display:flex; align-items:center; padding: 0 9px; font-weight:600; }
+  .phone .tab { position:absolute; left:0; right:0; bottom:0; height: 44px; border-top: 1px solid #e6e1dc; background:#fff; display:flex; justify-content:space-around; align-items:center; }
+  .phone .tab i { width: 14px; height: 14px; border-radius: 4px; background:#d8d2cc; display:block; }
+  .phone .tab i.on { background:#ff5a36; }
+  .phone .mark { position:absolute; border: 1.5px dashed #ef6b66; border-radius: 6px; }
+
+  .diffs { display:grid; gap: 8px; }
+  .diff { display:grid; grid-template-columns: 22px 1fr auto; gap: 10px; align-items:center; background: var(--pane); border:1px solid var(--line); border-radius: var(--r); padding: 9px 12px; }
+  .diff .ic { width: 20px; height: 20px; border-radius: 6px; display:grid; place-items:center; font-weight: 700; }
+  .diff .ic.ok { background: rgba(76,195,138,.15); color: var(--go); }
+  .diff .ic.no { background: rgba(230,180,80,.16); color: var(--wait); }
+  .diff .what { color: var(--ink); } .diff .where { color: var(--ink-3); }
+
+  .pm { background: var(--pane); border:1px solid var(--line); border-radius: var(--r); padding: 14px 16px; }
+  .pm h3 { margin: 0 0 6px; font-size: 13px; }
+  .pm p { margin: 0; color: var(--ink-2); max-width: 75ch; }
+
+  .bar-actions { position: sticky; bottom: 0; background: linear-gradient(to top, var(--bg) 70%, transparent); padding: 14px 26px 20px; display:flex; gap: 10px; align-items:flex-start; }
+  .btn { border: 1px solid var(--line); background: var(--raise); color: var(--ink); border-radius: 9px; padding: 9px 14px; font: inherit; font-weight: 600; cursor: pointer; }
+  .btn.ask { background: var(--ask); border-color: var(--ask); color: var(--ask-ink); }
+  .btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .fix { display:none; flex:1; gap:8px; }
+  .fix.show { display:flex; }
+  .fix textarea { flex:1; min-height: 64px; background: var(--pane); color: var(--ink); border:1px solid var(--line); border-radius: 9px; padding: 9px 11px; font: inherit; resize: vertical; }
+  .keys { color: var(--ink-3); margin-left:auto; align-self:center; }
+
+  /* sağ: PM ve ajanlar */
+  .side { background: var(--pane); border-left: 1px solid var(--line); display:grid; grid-template-rows: auto auto minmax(0,1fr) auto; min-height:0; }
+  .side h2 { margin:0; font-size: 13px; padding: 14px 16px 8px; display:flex; justify-content:space-between; }
+  .agents { display:grid; gap: 8px; padding: 0 12px 12px; }
+  .ag { background: var(--bg); border:1px solid var(--line); border-radius: var(--r); padding: 9px 10px; }
+  .ag .l { display:flex; align-items:center; gap: 8px; }
+  .ag .l b { font-weight: 600; }
+  .ag .l .chip { margin-left:auto; }
+  .ag .tm { margin-top: 7px; font-size: 11px; color: #9fd8b4; line-height: 1.5; max-height: 3.1em; overflow:hidden; }
+  .chat { overflow:auto; padding: 0 16px 8px; display:grid; gap: 12px; align-content:start; border-top:1px solid var(--line); }
+  .chat .who { color: var(--ink-3); margin: 12px 0 2px; }
+  .msg { color: var(--ink-2); }
+  .msg.me { color: var(--ink); }
+  .propose { background: var(--raise); border:1px solid var(--line); border-radius: var(--r); padding: 10px 12px; margin-top: 6px; }
+  .propose .row { display:flex; gap: 8px; margin-top: 8px; }
+  .cmdbox { padding: 10px 12px 14px; border-top:1px solid var(--line); }
+  .cmdbox div { background: var(--bg); border:1px solid var(--line); border-radius: 10px; padding: 10px 12px; color: var(--ink-3); display:flex; justify-content:space-between; }
+
+  @media (max-width: 1100px) { .app { grid-template-columns: 56px 240px minmax(0,1fr); } .side { display:none; } .shots { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <span class="brand">Orchard Panel</span>
+    <span class="sp"></span>
+    <span class="meter">Bugün <span class="bar"><i></i></span> 1,4M token</span>
+    <span class="meter">3 / 4 ajan</span>
+    <span class="askbadge">2 onay bekliyor</span>
+  </header>
+
+  <nav class="rail" aria-label="Bölümler">
+    <a class="on" href="#" title="Görevler"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 9h8M8 13h5"/></svg></a>
+    <a href="#" title="Ajanlar"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="11" r="2.4"/><path d="M3.5 19c.6-3 3-4.5 5.5-4.5s4.9 1.5 5.5 4.5"/></svg></a>
+    <a href="#" title="Wiki"><svg viewBox="0 0 24 24"><path d="M5 4h10a4 4 0 0 1 4 4v12H9a4 4 0 0 1-4-4z"/><path d="M5 16a4 4 0 0 1 4-4h10"/></svg></a>
+    <a href="#" title="Maliyet"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M21 19H3"/></svg></a>
+    <a href="#" title="Ayarlar"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></a>
+  </nav>
+
+  <aside class="list" aria-label="Görevler">
+    <div class="head"><h2>Orchard</h2><span class="chip">Yeni görev</span></div>
+
+    <div class="group"><span>Senin kararını bekliyor</span><span>2</span></div>
+    <div class="task on" data-id="A1" tabindex="0"><span class="dot ask"></span><div><div class="t">Commit edilmemiş değişiklikleri temizle</div><div class="m"><span class="mono">A1</span> · dev-3</div></div><span class="chip ask">inceleme</span></div>
+    <div class="task" data-id="A4" tabindex="0"><span class="dot ask"></span><div><div class="t">Hafızadaki açık işleri taşı</div><div class="m"><span class="mono">A4</span> · dev-2</div></div><span class="chip ask">inceleme</span></div>
+
+    <div class="group"><span>Çalışıyor</span><span>2</span></div>
+    <div class="task" data-id="B3" tabindex="0"><span class="dot work"></span><div><div class="t">Erişilebilirlik denetimi</div><div class="m"><span class="mono">B3</span> · dev-1 · 12 dk</div></div></div>
+    <div class="task" data-id="A5" tabindex="0"><span class="dot work"></span><div><div class="t">Widget bulgularını doğrula</div><div class="m"><span class="mono">A5</span> · dev-4 · 4 dk</div></div></div>
+
+    <div class="group"><span>PM önerdi, başlatmadı</span><span>2</span></div>
+    <div class="task" data-id="B1" tabindex="0"><span class="dot wait"></span><div><div class="t">Test altyapısı</div><div class="m"><span class="mono">B1</span> · onayını bekliyor</div></div></div>
+    <div class="task" data-id="A3" tabindex="0"><span class="dot wait"></span><div><div class="t">PROMPTS §6–§8 durumu</div><div class="m"><span class="mono">A3</span> · onayını bekliyor</div></div></div>
+
+    <div class="group"><span>Backlog</span><span>8</span></div>
+    <div class="task" tabindex="0"><span class="dot idle"></span><div><div class="t">Prototip farklarını karşılaştır</div><div class="m"><span class="mono">A2</span></div></div></div>
+    <div class="task" tabindex="0"><span class="dot idle"></span><div><div class="t">İngilizce çeviri gözden geçirme</div><div class="m"><span class="mono">B4</span></div></div></div>
+
+    <div class="group"><span>Bitti bu hafta</span><span>3</span></div>
+    <div class="task" tabindex="0"><span class="dot go"></span><div><div class="t">Kolaj stilleri</div><div class="m"><span class="mono">kolaj</span> · 6 Eki</div></div></div>
+  </aside>
+
+  <main class="main">
+    <div class="hd">
+      <div class="crumbs"><span class="mono" id="tid">A1</span><span>dev-3</span><span class="mono">feat/a1-temizlik</span></div>
+      <h1 id="ttl">Commit edilmemiş değişiklikleri temizle</h1>
+      <p class="sub" id="tsub">Localizable.xcstrings ve InfoPlist.xcstrings değişikliklerini doğrula, anlamlı commit'lere ayır. .gitattributes dosyasının commit edilip edilmeyeceğini belirt.</p>
+    </div>
+    <div class="tabs"><a class="on" href="#">İnceleme paketi</a><a href="#">Rapor</a><a href="#">Değişiklikler (3)</a><a href="#">Geçmiş</a></div>
+
+    <div class="body">
+      <div class="checks">
+        <div class="check ok"><b>Derleme</b><span>geçti · 48 sn</span></div>
+        <div class="check ok"><b>String kontrolü</b><span>sync_strings --check</span></div>
+        <div class="check bad"><b>Test</b><span>test hedefi yok</span></div>
+        <div class="check ok"><b>Kurallar</b><span>CLAUDE.md uyumlu</span></div>
+      </div>
+
+      <section>
+        <div class="shots">
+          <div class="shot"><h3>Hedef</h3>
+            <div class="phone"><div class="st"><span>9:41</span><span>100%</span></div><div class="hdr">Bugün</div><div class="card"><span class="pill">Zeytin · 1/2</span></div><div class="card b"></div><div class="row">Kestane için çek</div><div class="row">Seri · 12 gün</div><div class="tab"><i class="on"></i><i></i><i></i><i></i></div></div></div>
+          <div class="shot"><h3>dev-3 çıktısı</h3>
+            <div class="phone"><div class="st"><span>9:41</span><span>100%</span></div><div class="hdr">Bugün</div><div class="card"><span class="pill">Zeytin · 1/2</span></div><div class="card b"></div><div class="row">Kestane için çek</div><div class="row">Seri · 12 gün</div><div class="tab"><i class="on"></i><i></i><i></i><i></i></div></div></div>
+          <div class="shot"><h3>Fark</h3>
+            <div class="phone"><div class="st"><span>9:41</span><span>100%</span></div><div class="hdr">Bugün</div><div class="card"><span class="pill">Zeytin · 1/2</span></div><div class="card b"></div><div class="row">Kestane için çek</div><div class="row">Seri · 12 gün</div><div class="mark" style="left:14px;top:112px;width:150px;height:22px"></div><div class="tab"><i class="on"></i><i></i><i></i><i></i></div></div></div>
+        </div>
+      </section>
+
+      <section class="diffs">
+        <div class="diff"><span class="ic ok">✓</span><span class="what">Başlık yazı tipi hedefle aynı</span><span class="where mono">HomeScreen.swift</span></div>
+        <div class="diff"><span class="ic ok">✓</span><span class="what">Renk ve kart boşlukları aynı</span><span class="where mono">Tokens.swift</span></div>
+        <div class="diff"><span class="ic no">!</span><span class="what">Pill üst boşluğu 2 pt fazla</span><span class="where mono">HomeScreen.swift:84</span></div>
+      </section>
+
+      <section class="pm">
+        <h3>PM değerlendirmesi</h3>
+        <p>Derleme ve string kontrolü geçti. Kullanıcının onayı gereken tek nokta: <span class="mono">.gitattributes</span> repoya girmeli mi? Fark listesinde 1 küçük sapma var, düzeltme istemek için yeterli değil ama sana bırakıyorum.</p>
+      </section>
+    </div>
+
+    <div class="bar-actions">
+      <button class="btn ask">Onayla ve birleştir</button>
+      <button class="btn" id="fixbtn" aria-expanded="false">Düzeltme iste</button>
+      <div class="fix" id="fix"><textarea aria-label="Düzeltme notu" placeholder="PM'e ne düzeltilmesi gerektiğini yaz. PM görevi revize edip ajana geri verir."></textarea><button class="btn">PM'e gönder</button></div>
+      <span class="keys mono">⌘↵ onayla · E düzeltme</span>
+    </div>
+  </main>
+
+  <aside class="side" aria-label="PM ve ajanlar">
+    <h2>Ajanlar <span class="chip">Tentacl</span></h2>
+    <div class="agents">
+      <div class="ag"><div class="l"><span class="dot work"></span><b>dev-1</b><span class="chip mono">B3</span></div><div class="tm mono">▸ VoiceOver odağı kontrol ediliyor<br>▸ SheetRoute: isModal yok</div></div>
+      <div class="ag"><div class="l"><span class="dot work"></span><b>dev-4</b><span class="chip mono">A5</span></div><div class="tm mono">▸ widgetRenderingMode ekleniyor<br>▸ BUILD SUCCEEDED</div></div>
+      <div class="ag"><div class="l"><span class="dot go"></span><b>PM</b><span class="chip">boşta</span></div></div>
+    </div>
+
+    <div class="chat">
+      <div class="who">PM</div>
+      <div class="msg">Backlog'u okudum. A grubu birbirinden bağımsız. Sıradaki iki işi öneriyorum:</div>
+      <div class="propose">
+        <b>B1 Test altyapısı</b> <span class="chip">dev-2</span><br>
+        <b>A3 PROMPTS §6–§8 durumu</b> <span class="chip">dev-3</span>
+        <div class="msg" style="margin-top:6px">İkisi de farklı dosyalara dokunuyor, çakışma beklemiyorum.</div>
+        <div class="row"><button class="btn ask">İkisini başlat</button><button class="btn">Birini seç</button></div>
+      </div>
+      <div class="who">Sen</div>
+      <div class="msg me">A3'ü önce yap, B1 beklesin.</div>
+      <div class="who">PM</div>
+      <div class="msg">Anlaşıldı. A3'ü dev-3'e veriyorum, B1 backlog'da kalıyor.</div>
+    </div>
+
+    <div class="cmdbox"><div><span>PM'e yaz…</span><span class="mono">↵</span></div></div>
+  </aside>
+</div>
+
+<script>
+  var data = {
+    A1: ['Commit edilmemiş değişiklikleri temizle','dev-3','feat/a1-temizlik','Localizable.xcstrings ve InfoPlist.xcstrings değişikliklerini doğrula, anlamlı commit\'lere ayır. .gitattributes dosyasının commit edilip edilmeyeceğini belirt.'],
+    A4: ['Hafızadaki açık işleri taşı','dev-2','docs/a4-acik-isler','Hafıza notlarındaki açık işleri backlog\'a taşı veya kapandıklarını kodla doğrula.'],
+    B3: ['Erişilebilirlik denetimi','dev-1','feat/b3-a11y','Sheet kapanınca VoiceOver odağı, özel modallar ve Voice Control etiketlerini denetle. Çalışıyor.'],
+    A5: ['Widget bulgularını doğrula','dev-4','fix/a5-widget','widgetRenderingMode ve reloadTimelines(ofKind:) bulgularını doğrula, gerekirse düzelt. Çalışıyor.'],
+    B1: ['Test altyapısı','—','—','Test hedefi ekle; planlayıcı, AgeLabel ve sync scriptleri için birim testleri. Onayını bekliyor.'],
+    A3: ['PROMPTS §6–§8 durumu','—','—','QR üretimi ve paylaşımın gerçek durumunu işaretle. Onayını bekliyor.']
+  };
+  document.querySelectorAll('.task[data-id]').forEach(function (el) {
+    function pick() {
+      document.querySelectorAll('.task').forEach(function (t) { t.classList.remove('on'); });
+      el.classList.add('on');
+      var d = data[el.dataset.id]; if (!d) return;
+      document.getElementById('tid').textContent = el.dataset.id;
+      document.getElementById('ttl').textContent = d[0];
+      document.getElementById('tsub').textContent = d[3];
+      document.querySelectorAll('.crumbs span')[1].textContent = d[1];
+      document.querySelectorAll('.crumbs span')[2].textContent = d[2];
+    }
+    el.addEventListener('click', pick);
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter') pick(); });
+  });
+  var fb = document.getElementById('fixbtn'), fx = document.getElementById('fix');
+  fb.addEventListener('click', function () { var s = fx.classList.toggle('show'); fb.setAttribute('aria-expanded', s); });
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+
+ ▐▛███▛█   Claude Code v2.1.302
+▝▜██████▀  Opus 5.5 · Claude Pro
+ ▝▝   ▝▝   /private/tmp/claude-501/n79cap
+
+
+❯ Use the AskUserQuestion tool once, with ONE question 'Which layout?' with 3 options (Compact, Wide, Split), each option having a short ASCII-art preview field. Do nothing else.
+
+⏺ User declined to answer questions
+  ⎿  · Which layout? (Compact / Wide / Split)
+
+✻ Sautéed for 5s · done 8:41 PM
+
+❯ Use the AskUserQuestion tool once with ONE question 'Which toppings?' with multiSelect true and options Cheese, Ham, Olives. Do nothing else.
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+←  ☐ Toppings  ✔ Submit  →
+
+Which toppings?
+
+❯ 1. [ ] Cheese
+         Add cheese.
+  2. [ ] Ham
+         Add ham.
+  3. [ ] Olives
+         Add olives.
+  4. [ ] Type something
+     Submit
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  5. Chat about this
+
+Enter to select · ↑/↓ to navigate · Esc to cancel

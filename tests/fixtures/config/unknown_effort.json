@@ -1,0 +1,17 @@
+{
+  "name": "dev",
+  "kind": "interactive",
+  "model": "sonnet",
+  "effort": "orta",
+  "permissionMode": "acceptEdits",
+  "outputStyle": "concise",
+  "allowedTools": [
+    "Read",
+    "Edit",
+    "Bash"
+  ],
+  "skills": [
+    "swiftui-expert-skill"
+  ],
+  "instructionFile": "dev.md"
+}

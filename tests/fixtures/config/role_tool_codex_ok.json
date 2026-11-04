@@ -1,0 +1,12 @@
+{
+  "name": "dev",
+  "kind": "interactive",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "permissionMode": "plan",
+  "outputStyle": "concise",
+  "allowedTools": [],
+  "skills": [],
+  "instructionFile": "dev.md",
+  "tool": "codex"
+}

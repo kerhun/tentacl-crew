@@ -1,0 +1,26 @@
+──────────────────────────────────────────────────────────────────────────────────────────
+ ☐ Naming
+
+ The helper that loads the cards is called loadStuff today and three callers use it. I can
+ rename it everywhere in one commit, or leave the old name as a deprecated alias for a while:
+
+   @available(*, deprecated, renamed: "loadCards")
+   func loadStuff() throws -> [Card] {
+       try loadCards()
+   }
+
+ Which way do you want it?
+
+ critical: no
+ user: Kart yükleyen fonksiyonun adı kötü; her yerde tek seferde mi değiştirelim, yoksa eski
+ adı bir süre kalsın mı?
+
+ ❯ 1. Rename everywhere (Recommended)
+     One commit, no alias
+   2. Keep a deprecated alias
+     The old name stays for one release
+   3. Type something.
+
+   4. Chat about this
+
+ Enter to select · ↑/↓ to navigate · Esc to cancel

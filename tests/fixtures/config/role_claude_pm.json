@@ -1,0 +1,12 @@
+{
+  "name": "pm",
+  "kind": "interactive",
+  "model": "opus",
+  "effort": "high",
+  "permissionMode": "manual",
+  "outputStyle": "concise",
+  "allowedTools": [],
+  "skills": [],
+  "instructionFile": "pm.md",
+  "tool": "claude"
+}

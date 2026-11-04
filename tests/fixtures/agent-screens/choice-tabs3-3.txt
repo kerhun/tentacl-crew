@@ -1,0 +1,21 @@
+
+ ▐▛███▛█   Claude Code v2.1.304
+▝▜██████▀  Opus 5.5 · Claude Pro
+ ▝▝   ▝▝   /private/tmp/claude-501/n187cap
+
+
+❯ Use the AskUserQuestion tool once with THREE questions: 'Colour?' (Red, Green), 'Size?' (Small, Large), 'Shape?' (Round, Square). Do nothing else.
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+←  ☒ Colour  ☒ Size  ☐ Shape  ✔ Submit  →
+
+Shape?
+
+❯ 1. Round
+     Round
+  2. Square
+     Square
+  3. Type something.
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  4. Chat about this
+
+Enter to select · Tab/Arrow keys to navigate · Esc to cancel

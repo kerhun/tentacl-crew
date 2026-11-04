@@ -1,0 +1,19 @@
+{
+  "name": "dev",
+  "kind": "interactive",
+  "model": "gpt-5.5",
+  "effort": "high",
+  "permissionMode": "acceptEdits",
+  "outputStyle": "Learning",
+  "allowedTools": [
+    "Read"
+  ],
+  "skills": [
+    "superpowers"
+  ],
+  "instructionFile": "dev.md",
+  "tool": "codex",
+  "advanced": {
+    "theme": "dark"
+  }
+}

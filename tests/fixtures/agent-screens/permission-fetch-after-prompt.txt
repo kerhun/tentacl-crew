@@ -1,0 +1,33 @@
+     Verification                                                                                                               │                                                                    ✕
+                                                                                                                                │                                                    source: Current ▾
+     - cat hello.txt prints bye.                                                                                                │
+                                                                                                                                │
+⏺ Write(hello.txt)                                                                                                              │
+  ⎿  User rejected write to hello.txt                                                                                           │
+      1 bye                                                                                                                     │
+                                                                                                                                │
+  Read 1 file                                                                                                                   │
+                                                                                                                                │
+⏺ Write(hello.txt)                                                                                                              │
+  ⎿  User rejected write to hello.txt                                                                                           │
+      1 BYE                                                                                                                     │
+                                                                                                                                │
+✻ Brewed for 11s · done 11:22 PM                                                                                                │
+                                                                                                                                │                       No changes this session
+❯ Use the WebFetch tool right now on https://example.com asking for the h1 heading. No planning.                                │
+                                                                                                                                │
+⏺ Fetch(https://example.com)                                                                                                    │
+  ⎿  Interrupted · What should Claude do instead?                                                                               │
+                                                                                                                                │
+✻ Worked for 2s · done 11:22 PM                                                                                                 │
+                                                                                                                                │
+❯ do not fetch anything, just say hi                                                                                            │
+                                                                                                                                │
+⏺ hi                                                                                                                            │
+                                                                                                                                │
+✻ Churned for 1s · done 11:22 PM                                                                                                │
+                                                                                                            ◐ medium · /effort  │
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── create-hello-txt ─
+❯
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ⏸ manual mode on · ? for shortcuts · ← 1 agent

@@ -1,0 +1,27 @@
+2026-10-19T10:00:00Z [p] start-request 1 sheet cards=N1,N2 started= refused=
+2026-10-19T10:05:00Z [p] start N1 agent=dev-n1-p branch=task/n1 pane=w1:p1
+2026-10-19T10:05:00Z [p] start N2 agent=dev-n2-p branch=task/n2 pane=w2:p1
+2026-10-19T10:30:00Z [p] review packet started for N2
+2026-10-19T10:30:00Z [p] command to w0:pA: Panel: N2 finished its work (Report written).
+2026-10-19T10:37:00Z [p] fix request sent to w2:p1 for N2
+2026-10-19T10:40:00Z [p] review packet started for N1
+2026-10-19T10:40:00Z [p] command to w0:pA: Panel: N1 finished its work (Report written).
+2026-10-19T10:48:00Z [p] review packet prepared for N1
+2026-10-19T10:50:00Z [p] merged N1 d676abc25ae6f5ede535f7dffd04693ac3c19d54 (script)
+2026-10-19T10:57:00Z [p] review packet started for N2
+2026-10-19T10:57:00Z [p] command to w0:pA: Panel: N2 finished its work (Report written).
+2026-10-19T11:05:00Z [p] review packet prepared for N2
+2026-10-19T11:06:00Z [p] fix request sent to w2:p1 for N2
+2026-10-19T11:16:00Z [p] review packet started for N2
+2026-10-19T11:16:00Z [p] command to w0:pA: Panel: N2 finished its work (Report written).
+2026-10-19T11:22:00Z [p] review packet prepared for N2
+2026-10-19T11:23:00Z [p] asked N2 (permission)
+2026-10-19T11:28:00Z [p] answered N2 (w2:p1)
+2026-10-19T11:30:00Z [p] merged N2 1708dce4098de7a8f4934b0eab0f629fadcd45c1 (script)
+2026-10-19T12:00:00Z [p] start N3 agent=dev-n3-p branch=task/n3 pane=w3:p1
+2026-10-19T12:20:00Z [p] review packet started for N3
+2026-10-19T12:30:00Z [p] review packet prepared for N3
+2026-10-19T12:31:00Z [p] asked N3 (choice)
+2026-10-19T12:40:00Z [other] start N3 agent=x branch=y pane=z
+2026-09-01T09:00:00Z [p] start N8 agent=dev-n8-p branch=task/n8 pane=w8:p1
+2026-09-01T09:30:00Z [p] approved N8

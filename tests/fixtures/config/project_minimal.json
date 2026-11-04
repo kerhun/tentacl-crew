@@ -1,0 +1,12 @@
+{
+  "id": "demo",
+  "name": "Demo",
+  "repoPath": "/tmp/demo",
+  "dataDir": "/tmp/demo-data",
+  "maxParallel": 4,
+  "sharedFiles": [
+    "App/Resources/Localizable.xcstrings",
+    "project.yml"
+  ],
+  "screenshots": false
+}

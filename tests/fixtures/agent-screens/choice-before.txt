@@ -1,0 +1,18 @@
+ ▐▛███▛█   Claude Code v2.1.302
+▝▜██████▀  Opus 5.5 with medium effort · Claude Pro
+ ▝▝   ▝▝   ~/Documents/GitHub/orchard/.agent-worktrees/test-q1-ask
+❯ Your task card: /Users/you/Documents/data/project/tasks/Q1.md (read it fully, then do the task). Follow your role instructions (concise).
+  Read 1 file
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ☐ Colour
+Which colour do you prefer?
+❯ 1. Red
+     Red
+  2. Green
+     Green
+  3. Blue
+     Blue
+  4. Type something.
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  5. Chat about this
+Enter to select · ↑/↓ to navigate · Esc to cancel

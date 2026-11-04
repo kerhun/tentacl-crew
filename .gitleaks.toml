@@ -1,0 +1,10 @@
+title = "Tentacl Crew"
+[extend]
+useDefault = true
+
+# Known test fakes only; a real secret anywhere else is still found.
+[[allowlists]]
+description = "fake token in a test fixture"
+condition = "AND"
+paths = ['''app/AgentPanelTests/SkillCatalogTests\.swift''']
+regexes = ['''ghp_SECRET123''']

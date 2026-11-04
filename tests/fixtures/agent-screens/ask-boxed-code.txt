@@ -1,0 +1,21 @@
+╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ☐ Config                                                                                                       │
+│                                                                                                                │
+│ The loader reads ~/Library/Application Support/Tentacl/settings.json and the key below is missing in older files:│
+│                                                                                                                │
+│   {                                                                                                            │
+│     "scriptsDir": "/Users/you/Documents/GitHub/agent-panel/scripts",                                           │
+│     "terminalBackend": "tentacl"                                                                               │
+│   }                                                                                                            │
+│                                                                                                                │
+│ Should the loader add the key when it is missing?                                                              │
+│                                                                                                                │
+│ ❯ 1. Add it                                                                                                    │
+│     The file gets rewritten once                                                                               │
+│   2. Leave the file alone                                                                                      │
+│     The default applies in memory                                                                              │
+│   3. Type something.                                                                                           │
+│                                                                                                                │
+│   4. Chat about this                                                                                           │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+ Enter to select · ↑/↓ to navigate · Esc to cancel
