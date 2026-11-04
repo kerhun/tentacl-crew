@@ -101,8 +101,8 @@ final class ReadmeShotsTests: XCTestCase {
         struct Scripts: ScriptRunning { func run(_ script: ScriptName, arguments: [String]) async throws -> ScriptResult { ScriptResult(status: 0, stdout: "", stderr: "") } }
         let add = AddProjectFlow(scripts: Scripts(), registry: ProjectRegistry(settingsURL: dir.url.appendingPathComponent("p.json"), scripts: Scripts()),
                                  probe: { _ in ProjectProbe(facts: RepoFacts()) }, listSimulators: { ["iPhone 17 Pro"] }, existingIDs: { [] },
-                                 fileExists: { !$0.hasSuffix("/pet-diary") }, repoParent: "/Users/you/Projects", dataRoot: "/Users/you/Documents/notes")
-        add.name = "Pet Diary"
+                                 fileExists: { !$0.hasSuffix("/recipe-box") }, repoParent: "/Users/you/Projects", dataRoot: "/Users/you/Documents/notes")
+        add.name = "Recipe Box"
         try await Self.both("add-project") {
             Self.sheet(over: ShellView(model: model, screen: .dashboard, blockedCard: none), AddProjectSheet(flow: add, onAdded: { _ in }, onCancel: {}), width: 600)
         }

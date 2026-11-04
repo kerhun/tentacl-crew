@@ -136,7 +136,7 @@ final class PMToolChoiceTests: XCTestCase {
         let flow = AddProjectFlow(scripts: Validator(), registry: ProjectRegistry(settingsURL: dir.url.appendingPathComponent("projects.json"), scripts: Validator()),
                                   probe: { _ in ProjectProbe(facts: RepoFacts(isGitRepo: true, isTopLevel: true, hasCommits: true, branch: "main")) },
                                   listSimulators: { [] }, existingIDs: { [] }, repoParent: code, dataRoot: wiki)
-        flow.name = "Pet Diary"
+        flow.name = "Recipe Box"
         let picker = PMToolPicker(current: .claude, followsDefault: true, rules: CodexRules(home: dir.url.appendingPathComponent("home")),
                                   status: { PMToolStatus(installed: [.claude, .codex], signedIn: [.codex], codexModels: Self.codexModels) })
         await picker.load()

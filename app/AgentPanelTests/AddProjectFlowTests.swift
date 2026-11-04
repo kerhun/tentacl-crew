@@ -63,7 +63,7 @@ final class AddProjectFlowTests: XCTestCase {
     // MARK: N7
     func testAMissingParentFolderIsReportedBeforeAnythingIsWritten() {
         let f = flow()
-        f.name = "Pet Diary"
+        f.name = "Recipe Box"
         f.repoParent = dir.url.appendingPathComponent("nope").path
         XCTAssertTrue(f.problems.contains { $0.contains("nope") && $0.contains("does not exist") }, "\(f.problems)")
         XCTAssertFalse(f.canSubmit)
@@ -77,7 +77,7 @@ final class AddProjectFlowTests: XCTestCase {
                                existingIDs: { [] }, repoParent: code, dataRoot: wiki)
         try? FileManager.default.createDirectory(atPath: code, withIntermediateDirectories: true)
         try? FileManager.default.createDirectory(atPath: wiki, withIntermediateDirectories: true)
-        f.name = "Pet Diary"
+        f.name = "Recipe Box"
         f.preset = .ios
         await f.loadSimulators()
         XCTAssertTrue(f.problems.contains { $0.contains("no simulators") }, "\(f.problems)")
@@ -92,25 +92,25 @@ final class AddProjectFlowTests: XCTestCase {
         let f = flow()
         XCTAssertFalse(f.canSubmit)
         XCTAssertTrue(f.problems.joined().contains("name"))
-        f.name = "Pet Diary"
+        f.name = "Recipe Box"
         XCTAssertTrue(f.canSubmit)
-        XCTAssertEqual(f.names?.slug, "pet-diary")
+        XCTAssertEqual(f.names?.slug, "recipe-box")
     }
 
     func testAnExistingIdOrFolderBlocksAndSaysWhat() throws {
-        let f = flow(ids: ["pet-diary"])
-        f.name = "Pet Diary"
+        let f = flow(ids: ["recipe-box"])
+        f.name = "Recipe Box"
         XCTAssertFalse(f.canSubmit)
         XCTAssertTrue(f.problems.joined().contains("already in the list"))
         let g = flow()
-        g.name = "Pet Diary"
-        try FileManager.default.createDirectory(atPath: code + "/pet-diary", withIntermediateDirectories: true)
+        g.name = "Recipe Box"
+        try FileManager.default.createDirectory(atPath: code + "/recipe-box", withIntermediateDirectories: true)
         XCTAssertFalse(g.canSubmit)
-        XCTAssertTrue(g.problems.joined().contains(code + "/pet-diary"))
+        XCTAssertTrue(g.problems.joined().contains(code + "/recipe-box"))
     }
 
     func testAnOwnerThatIsNotAGitHubNameBlocksOnlyWhenARepositoryIsWanted() {
-        let f = flow(); f.name = "Pet Diary"; f.githubOwner = "a b"
+        let f = flow(); f.name = "Recipe Box"; f.githubOwner = "a b"
         XCTAssertTrue(f.canSubmit, "GitHub is not wanted yet")
         f.github = .privateRepo
         XCTAssertFalse(f.canSubmit)
@@ -120,14 +120,14 @@ final class AddProjectFlowTests: XCTestCase {
 
     func testANewProjectIsCreatedRegisteredAndReported() async throws {
         let f = flow()
-        f.name = "Pet Diary"
+        f.name = "Recipe Box"
         let created = await f.submit()
-        XCTAssertEqual(created?.id, "pet-diary")
-        XCTAssertEqual(calls.first, [code + "/pet-diary", wiki + "/pet-diary", "pet-diary", "Pet Diary", "other", "PetDiary", ""])
-        XCTAssertEqual(f.phase, .done("pet-diary"))
+        XCTAssertEqual(created?.id, "recipe-box")
+        XCTAssertEqual(calls.first, [code + "/recipe-box", wiki + "/recipe-box", "recipe-box", "Recipe Box", "other", "RecipeBox", ""])
+        XCTAssertEqual(f.phase, .done("recipe-box"))
         let o = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: settings)) as? [String: Any])
         XCTAssertEqual((o["projects"] as? [String])?.count, 1)
-        XCTAssertFalse(FileManager.default.fileExists(atPath: wiki + "/pet-diary/tasks/G1.md"), "GitHub was not asked for")
+        XCTAssertFalse(FileManager.default.fileExists(atPath: wiki + "/recipe-box/tasks/G1.md"), "GitHub was not asked for")
     }
 
     func testTheIOSPresetIsPassedOn() async {
@@ -138,7 +138,7 @@ final class AddProjectFlowTests: XCTestCase {
 
     func testAScriptFailureIsShownAndNothingIsRegistered() async {
         let f = flow(fail: "ERROR: git init failed")
-        f.name = "Pet Diary"
+        f.name = "Recipe Box"
         let created = await f.submit()
         XCTAssertNil(created)
         XCTAssertEqual(f.phase, .failed("ERROR: git init failed"))
@@ -147,30 +147,30 @@ final class AddProjectFlowTests: XCTestCase {
 
     func testARegistrationFailureRemovesTheFoldersThisRunMade() async throws {
         let f = flow()
-        f.name = "Pet Diary"
+        f.name = "Recipe Box"
         // The settings file is unreadable, so registering fails after the script has made the folders.
         try "{ broken".write(to: settings, atomically: true, encoding: .utf8)
         let created = await f.submit()
         XCTAssertNil(created)
         guard case .failed = f.phase else { return XCTFail("\(f.phase)") }
-        XCTAssertFalse(FileManager.default.fileExists(atPath: code + "/pet-diary"))
-        XCTAssertFalse(FileManager.default.fileExists(atPath: wiki + "/pet-diary"))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: code + "/recipe-box"))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: wiki + "/recipe-box"))
         XCTAssertEqual(try String(contentsOf: settings, encoding: .utf8), "{ broken")
     }
 
     func testAGitHubChoiceOnlyAsksForTheSheetAfterTheProjectExists() async throws {
-        let f = flow(); f.name = "Pet Diary"; f.github = .privateRepo; f.githubOwner = "my-org"
+        let f = flow(); f.name = "Recipe Box"; f.github = .privateRepo; f.githubOwner = "my-org"
         _ = await f.submit()
         XCTAssertEqual(f.publishRequest?.visibility, .privateRepo)
         XCTAssertEqual(f.publishRequest?.owner, "my-org")
-        XCTAssertFalse(FileManager.default.fileExists(atPath: wiki + "/pet-diary/tasks/G1.md"), "no G1 card any more")
+        XCTAssertFalse(FileManager.default.fileExists(atPath: wiki + "/recipe-box/tasks/G1.md"), "no G1 card any more")
         let failing = flow(fail: "boom"); failing.name = "Other One"; failing.github = .publicRepo
         _ = await failing.submit()
         XCTAssertNil(failing.publishRequest)
     }
 
     func testASecondSubmitWhileWorkingIsIgnored() async {
-        let f = flow(); f.name = "Pet Diary"
+        let f = flow(); f.name = "Recipe Box"
         async let first = f.submit()
         async let second = f.submit()
         let results = await [first, second]
@@ -181,7 +181,7 @@ final class AddProjectFlowTests: XCTestCase {
     // MARK: review fixes
 
     func testCodeAndDataInTheSameParentFolderIsRefused() {
-        let f = flow(); f.name = "Pet Diary"; f.dataRoot = code
+        let f = flow(); f.name = "Recipe Box"; f.dataRoot = code
         XCTAssertFalse(f.canSubmit)
         XCTAssertTrue(f.problems.joined().contains("same folder"))
     }
@@ -336,13 +336,13 @@ final class AddProjectFlowTests: XCTestCase {
         f.buildCommand = "  "; f.testCommand = ""
         _ = await f.submit()
         XCTAssertFalse(calls[0].contains("--build-command")); XCTAssertFalse(calls[0].contains("--test-command"))
-        let g = flow(); g.name = "Pet Diary"; g.testCommand = "a\nb"
+        let g = flow(); g.name = "Recipe Box"; g.testCommand = "a\nb"
         XCTAssertFalse(g.canSubmit)
         XCTAssertTrue(g.problems.joined().contains("line break"))
     }
 
     func testANewProjectTakesATestCommand() async {
-        let f = flow(); f.name = "Pet Diary"; f.testCommand = "swift test"
+        let f = flow(); f.name = "Recipe Box"; f.testCommand = "swift test"
         _ = await f.submit()
         XCTAssertEqual(Array(calls[0].prefix(2)), ["--test-command", "swift test"])
         XCTAssertEqual(f.questions, [], "a new project has nothing to ask")
@@ -421,27 +421,27 @@ final class AddProjectFlowTests: XCTestCase {
         await f.chooseRepo(code + "/old")
         _ = await f.submit()
         XCTAssertEqual(trustCalls, [[code + "/old"]])
-        let g = flow(); g.name = "Pet Diary"
+        let g = flow(); g.name = "Recipe Box"
         _ = await g.submit()
-        XCTAssertEqual(trustCalls.last, [code + "/pet-diary"])
+        XCTAssertEqual(trustCalls.last, [code + "/recipe-box"])
     }
 
     func testATrustFailureIsANoticeAndTheProjectStays() async {
-        let f = flow(trustFails: true); f.name = "Pet Diary"
+        let f = flow(trustFails: true); f.name = "Recipe Box"
         let created = await f.submit()
         XCTAssertNotNil(created)
-        XCTAssertEqual(f.phase, .done("pet-diary"))
+        XCTAssertEqual(f.phase, .done("recipe-box"))
         XCTAssertTrue(f.notice?.contains("trust") == true, "\(String(describing: f.notice))")
     }
 
     func testNothingIsTrustedWhenTheProjectWasNotAdded() async {
-        let f = flow(fail: "boom"); f.name = "Pet Diary"
+        let f = flow(fail: "boom"); f.name = "Recipe Box"
         _ = await f.submit()
         XCTAssertEqual(trustCalls, [])
     }
 
     func testStartThePMIsOnByDefault() async {
-        let f = flow(); f.name = "Pet Diary"
+        let f = flow(); f.name = "Recipe Box"
         XCTAssertTrue(f.startPM); XCTAssertTrue(f.startsPM)
         f.startPM = false
         XCTAssertFalse(f.startsPM)
@@ -464,7 +464,7 @@ final class AddProjectSheetTests: XCTestCase {
         struct Scripts: ScriptRunning { func run(_ script: ScriptName, arguments: [String]) async throws -> ScriptResult { ScriptResult(status: 0, stdout: "", stderr: "") } }
         let f = AddProjectFlow(scripts: Scripts(), registry: ProjectRegistry(settingsURL: dir.url.appendingPathComponent("p.json"), scripts: Scripts()),
                                probe: { _ in ProjectProbe(facts: RepoFacts()) }, listSimulators: { ["iPhone 17 Pro"] }, existingIDs: { [] }, repoParent: "/code", dataRoot: "/wiki")
-        f.name = "Pet Diary"; f.github = github
+        f.name = "Recipe Box"; f.github = github
         return f
     }
 
@@ -472,9 +472,9 @@ final class AddProjectSheetTests: XCTestCase {
         let rows = addProjectPreviewRows(try flow())
         XCTAssertEqual(rows.map(\.label), ["Project id", "Repository", "Data", "Trust"])
         XCTAssertEqual(rows[3].value, "Claude Code will trust this folder")
-        XCTAssertEqual(rows[0].value, "pet-diary")
-        XCTAssertTrue(rows[1].value.contains("/code/pet-diary"))
-        XCTAssertEqual(rows[2].value, "/wiki/pet-diary")
+        XCTAssertEqual(rows[0].value, "recipe-box")
+        XCTAssertTrue(rows[1].value.contains("/code/recipe-box"))
+        XCTAssertEqual(rows[2].value, "/wiki/recipe-box")
     }
 
     func testTheTrustRowNamesTheToolsInUse() throws {

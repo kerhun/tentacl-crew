@@ -25,7 +25,7 @@ enum ProjectNaming {
         return out
     }
 
-    /// "Pet Diary" → "PetDiary"; a name that starts with a digit gets an "App" prefix. Never empty.
+    /// "Recipe Box" → "RecipeBox"; a name that starts with a digit gets an "App" prefix. Never empty.
     static func xcodeName(from name: String) -> String {
         let words = fold(name).split { !($0.isASCII && ($0.isLetter || $0.isNumber)) }
         let joined = String(words.map { $0.prefix(1).uppercased() + $0.dropFirst() }.joined().prefix(56))

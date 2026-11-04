@@ -7,6 +7,12 @@ cask "tentacl-crew" do
   desc "Local panel that runs a team of coding agents"
   homepage "https://github.com/kerhun/tentacl-crew"
 
+  livecheck do
+    url :url
+    strategy :github_latest
+    regex(/v?(\d+(?:\.\d+)+(?:-beta\.\d+)?)/i)
+  end
+
   depends_on macos: :sonoma
 
   app "Tentacl.app"

@@ -8,7 +8,7 @@ cat > "$L" <<LOG
 2026-10-17T20:08:57Z answered B1 (w2:p1)
 2026-10-17T20:09:00Z answered B1 (w2:pA)
 2026-10-17T20:09:34Z approved N31
-2026-10-19T00:24:19Z [pet-diary] merged T1 $SHA (script)
+2026-10-19T00:24:19Z [recipe-box] merged T1 $SHA (script)
 2026-10-20T21:09:45Z [tmp] merged T1 $SHA (script)
 2026-10-20T21:10:00Z merged T1 $SHA (script)
 2026-10-20T21:11:00Z [agent-panel] merged N106 $SHA (script)
@@ -26,7 +26,7 @@ expect "unknown flag fails" 2 "unknown argument" "$S" "$L" --nope
 expect "--apply backs up and removes" 0 "removed 4 lines" "$S" --apply "$L"
 bak=$(ls "$T"/actions.log.bak-* 2>/dev/null | head -1)
 [ -n "$bak" ] && cmp -s "$bak" "$T/orig" && { echo "PASS  the backup is the untouched original"; PASS=$((PASS+1)); } || { echo "FAIL  backup missing or changed"; FAIL=$((FAIL+1)); }
-[ "$(wc -l < "$L" | tr -d ' ')" = 6 ] && ! grep -q 'answered B1 (w2:p1)$' <(grep -v command "$L") && ! grep -qE '(\[tmp\] |\[pet-diary\] |Z )merged T1 [0-9a-f]{40} \(script\)$' "$L" \
+[ "$(wc -l < "$L" | tr -d ' ')" = 6 ] && ! grep -q 'answered B1 (w2:p1)$' <(grep -v command "$L") && ! grep -qE '(\[tmp\] |\[recipe-box\] |Z )merged T1 [0-9a-f]{40} \(script\)$' "$L" \
   && { echo "PASS  only the 4 matching lines are gone"; PASS=$((PASS+1)); } || { echo "FAIL  wrong lines left:"; cat "$L"; FAIL=$((FAIL+1)); }
 for k in "answered B1 (w2:pA)" "approved N31" "merged N106" "(script) extra" "command to w2:pB" "start T1"; do
   grep -qF "$k" "$L" || { echo "FAIL  lost a non-test line: $k"; FAIL=$((FAIL+1)); continue; }

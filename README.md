@@ -89,16 +89,18 @@ You choose, per project, in Autopilot rules.
 Some things always come to you, whatever the setting: pushes, network access, installs, `rm -rf` and `sudo`. Every decision is logged with its reason and cost. The details are in [Using Tentacl Crew](docs/guide.md#pm-autopilot).
 
 ## Install
-One line installs the latest release into `/Applications`. It checks the download against `SHA256SUMS` and needs no sudo.
+The recommended way: one line installs the latest release into `/Applications`. It checks the download against `SHA256SUMS` and needs no sudo.
 
 ```sh
 curl -fsSL https://github.com/kerhun/tentacl-crew/releases/latest/download/install.sh | bash
 ```
 
-Or with Homebrew:
+**Alternative: Homebrew.** Homebrew asks you to trust every tap outside homebrew/core and homebrew/cask, hence the `brew trust` step.
 
 ```sh
-brew install --cask kerhun/tap/tentacl-crew
+brew tap kerhun/tap
+brew trust kerhun/tap
+brew install --cask tentacl-crew
 ```
 
 > [!IMPORTANT]

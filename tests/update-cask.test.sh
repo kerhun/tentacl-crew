@@ -12,6 +12,7 @@ ruby -c "$ROOT/packaging/homebrew/Casks/tentacl-crew.rb" >/dev/null && ok ruby_s
 expect update_0 0 "version 1.2" bash "$U" v1.2 "$D" --cask "$C"
 grep -q "^  version \"1.2\"" "$C" && grep -q "^  sha256 \"$sha\"" "$C" && ok file_updated || no file_updated
 ruby -c "$C" >/dev/null && ok ruby_after || no ruby_after
+[ "$(sed -n '/livecheck do/,/^  end/p' "$C")" = "$(sed -n '/livecheck do/,/^  end/p' "$T/orig")" ] && grep -q github_latest "$C" && ok livecheck_unchanged || no livecheck_unchanged
 
 cp "$C" "$T/good"
 expect tag_mismatch_1 1 "missing" bash "$U" v1.3 "$D" --cask "$C"

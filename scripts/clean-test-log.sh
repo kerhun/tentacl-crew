@@ -4,7 +4,7 @@
 #   (no flag)  dry run: prints the count per rule and a sample of the lines it would remove; writes nothing.
 #   --apply    first copies <log> to <log>.bak-<date>, then writes the cleaned log atomically (temp file + mv).
 # Only lines that match a rule below are removed (the whole line, optional "[project] " tag allowed); everything else stays.
-#   merged-T1   "merged T1 <40-hex sha> (script)": merge-task.sh test runs, card T1 in a temp repo (tags [tmp], [pet-diary])
+#   merged-T1   "merged T1 <40-hex sha> (script)": merge-task.sh test runs, card T1 in a temp repo (tags [tmp], [recipe-box])
 #   answered-B1 "answered B1 (w2:p1)": answer tests on fixture card B1 and pane w2:p1 (real panes are w2:pA, w2:pB, ...)
 set -u
 log=""; apply=""; sample=5

@@ -10,16 +10,16 @@ ok() { echo "PASS  $1"; PASS=$((PASS+1)); }
 no() { echo "FAIL  $1: $2"; FAIL=$((FAIL+1)); }
 
 # --- Other preset ---
-expect other_preset_creates_0 0 "" bash "$C" "$T/code/pet-diary" "$T/wiki/pet-diary" pet-diary "Pet Diary" other
-P="$T/wiki/pet-diary/agent-panel/project.json"
+expect other_preset_creates_0 0 "" bash "$C" "$T/code/recipe-box" "$T/wiki/recipe-box" recipe-box "Recipe Box" other
+P="$T/wiki/recipe-box/agent-panel/project.json"
 expect other_project_json_valid_0 0 "" bash "$V" "$P"
-expect other_team_json_valid_0 0 "" bash "$V" "$T/wiki/pet-diary/agent-panel/team.json"
-jq -e '.id=="pet-diary" and .name=="Pet Diary" and .repoPath=="'"$T/code/pet-diary"'" and .dataDir=="'"$T/wiki/pet-diary"'" and .screenshots==false and (has("simulator")|not) and (has("buildCommand")|not) and .maxParallel==2' "$P" >/dev/null && ok other_project_json_fields || no other_project_json_fields "$(cat "$P")"
-[ "$(git -C "$T/code/pet-diary" rev-parse --abbrev-ref HEAD)" = main ] && [ "$(git -C "$T/code/pet-diary" log --oneline | wc -l | tr -d ' ')" = 1 ] && ok repo_has_main_and_one_commit || no repo_has_main_and_one_commit "$(git -C "$T/code/pet-diary" log --oneline 2>&1)"
-grep -qx '.agent-worktrees/' "$T/code/pet-diary/.gitignore" && ok gitignore_has_worktrees || no gitignore_has_worktrees "$(cat "$T/code/pet-diary/.gitignore")"
-[ -d "$T/wiki/pet-diary/tasks" ] && ok tasks_folder_exists || no tasks_folder_exists ""
-jq -e '[.members[]|{(.role):.reportsTo}]|add == {"pm":null,"reviewer":"pm","dev":"reviewer"}' "$T/wiki/pet-diary/agent-panel/team.json" >/dev/null && ok team_uses_only_existing_roles || no team_uses_only_existing_roles "$(cat "$T/wiki/pet-diary/agent-panel/team.json")"
-[ -z "$(git -C "$T/code/pet-diary" status --porcelain)" ] && ok repo_clean_after_creation || no repo_clean_after_creation ""
+expect other_team_json_valid_0 0 "" bash "$V" "$T/wiki/recipe-box/agent-panel/team.json"
+jq -e '.id=="recipe-box" and .name=="Recipe Box" and .repoPath=="'"$T/code/recipe-box"'" and .dataDir=="'"$T/wiki/recipe-box"'" and .screenshots==false and (has("simulator")|not) and (has("buildCommand")|not) and .maxParallel==2' "$P" >/dev/null && ok other_project_json_fields || no other_project_json_fields "$(cat "$P")"
+[ "$(git -C "$T/code/recipe-box" rev-parse --abbrev-ref HEAD)" = main ] && [ "$(git -C "$T/code/recipe-box" log --oneline | wc -l | tr -d ' ')" = 1 ] && ok repo_has_main_and_one_commit || no repo_has_main_and_one_commit "$(git -C "$T/code/recipe-box" log --oneline 2>&1)"
+grep -qx '.agent-worktrees/' "$T/code/recipe-box/.gitignore" && ok gitignore_has_worktrees || no gitignore_has_worktrees "$(cat "$T/code/recipe-box/.gitignore")"
+[ -d "$T/wiki/recipe-box/tasks" ] && ok tasks_folder_exists || no tasks_folder_exists ""
+jq -e '[.members[]|{(.role):.reportsTo}]|add == {"pm":null,"reviewer":"pm","dev":"reviewer"}' "$T/wiki/recipe-box/agent-panel/team.json" >/dev/null && ok team_uses_only_existing_roles || no team_uses_only_existing_roles "$(cat "$T/wiki/recipe-box/agent-panel/team.json")"
+[ -z "$(git -C "$T/code/recipe-box" status --porcelain)" ] && ok repo_clean_after_creation || no repo_clean_after_creation ""
 
 # --- iOS preset ---
 expect ios_preset_creates_0 0 "" bash "$C" "$T/code/cicek" "$T/wiki/cicek" cicek "Çiçek" ios Cicek "iPhone 17 Pro"
@@ -46,7 +46,7 @@ expect missing_parent_1 1 "parent" bash "$C" "$T/nope/x4" "$T/wiki/x4" x4 X othe
 mkdir -p "$T/bin"; printf '#!/bin/sh\ncase " $* " in *" commit "*) echo boom >&2; exit 1 ;; esac\nexec /usr/bin/git "$@"\n' > "$T/bin/git"; chmod +x "$T/bin/git"
 expect failing_commit_1 1 "initial commit" env PATH="$T/bin:$PATH" bash "$C" "$T/code/halfway" "$T/wiki/halfway" halfway Halfway other
 [ ! -e "$T/code/halfway" ] && [ ! -e "$T/wiki/halfway" ] && ok half_made_project_removed || no half_made_project_removed "$(ls "$T/code" "$T/wiki")"
-[ -d "$T/code/pet-diary" ] && [ -d "$T/wiki/pet-diary" ] && ok earlier_projects_untouched || no earlier_projects_untouched ""
+[ -d "$T/code/recipe-box" ] && [ -d "$T/wiki/recipe-box" ] && ok earlier_projects_untouched || no earlier_projects_untouched ""
 
 # --- --existing: register a repository that is already there; only the data folder is written ---
 git init -q -b trunk "$T/code/old"; git -C "$T/code/old" -c user.name=t -c user.email=t@t commit -q --allow-empty -m first; echo mine > "$T/code/old/mine.txt"
@@ -81,7 +81,7 @@ expect newline_in_name_2 2 "line break" bash "$C" "$T/code/n3" "$T/wiki/n3" n3 $
 git init -q -b main "$T/code/xc"; git -C "$T/code/xc" -c user.name=t -c user.email=t@t commit -q --allow-empty -m first
 expect xcode_name_with_space_0 0 "" bash "$C" --existing "$T/code/xc" "$T/wiki/xc" xc "Xc App" ios "My App" "iPhone 17 Pro"
 jq -e '.xcodeProject=="My App.xcodeproj" and (.buildCommand|contains("-project '"'"'My App.xcodeproj'"'"'")) and (.buildCommand|contains("-scheme '"'"'My App'"'"'"))' "$T/wiki/xc/agent-panel/project.json" >/dev/null && ok xcode_name_quoted_in_build_command || no xcode_name_quoted_in_build_command "$(jq -r .buildCommand "$T/wiki/xc/agent-panel/project.json")"
-expect xcode_name_with_dash_0 0 "" bash "$C" "$T/code/xd" "$T/wiki/xd" xd "Xd" ios "Pet-Diary" "iPhone 17 Pro"
+expect xcode_name_with_dash_0 0 "" bash "$C" "$T/code/xd" "$T/wiki/xd" xd "Xd" ios "Recipe-Box" "iPhone 17 Pro"
 expect xcode_name_with_quote_2 2 "Xcode name" bash "$C" "$T/code/xe" "$T/wiki/xe" xe "Xe" ios "A'b" "iPhone 17 Pro"
 # I3: a killed run removes what it made (a commit that hangs, as with a GPG prompt, is interrupted too)
 mkdir -p "$T/bin2"; printf '#!/bin/sh\ncase " $* " in *" commit "*) sleep 30 ;; esac\nexec /usr/bin/git "$@"\n' > "$T/bin2/git"; chmod +x "$T/bin2/git"

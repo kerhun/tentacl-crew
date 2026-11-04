@@ -75,7 +75,7 @@ struct AddProjectSheet: View {
 
     private var newFields: some View {
         VStack(alignment: .leading, spacing: Tok.Space.s + 2) {
-            field("Name") { FieldText(text: $flow.name, placeholder: "Pet Diary") }
+            field("Name") { FieldText(text: $flow.name, placeholder: "Recipe Box") }
             folderRow("Code goes in", path: flow.repoParent) { if let p = picker.chooseFolder(message: "Choose the folder the new repository is created in") { flow.repoParent = p } }
             folderRow("Data goes in", path: flow.dataRoot) { if let p = picker.chooseFolder(message: "Choose the folder that holds the project's tasks and settings") { flow.dataRoot = p } }
         }

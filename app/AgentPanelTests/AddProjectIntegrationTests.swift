@@ -49,23 +49,23 @@ final class AddProjectIntegrationTests: XCTestCase {
 
     func testANewProjectWithoutBuildOrSimulatorRunsAWholeTask() async throws {
         let flow = makeFlow()
-        flow.name = "Pet Diary"; flow.github = .privateRepo
+        flow.name = "Recipe Box"; flow.github = .privateRepo
         let created = await flow.submit()
         let project = try XCTUnwrap(created, "\(flow.phase)")
         XCTAssertNil(project.buildCommand); XCTAssertNil(project.simulator); XCTAssertFalse(project.screenshotsEnabled)
-        XCTAssertEqual(try git(code + "/pet-diary", ["rev-parse", "--abbrev-ref", "HEAD"]), "main")
+        XCTAssertEqual(try git(code + "/recipe-box", ["rev-parse", "--abbrev-ref", "HEAD"]), "main")
         XCTAssertNotNil(flow.publishRequest)
-        XCTAssertFalse(FileManager.default.fileExists(atPath: wiki + "/pet-diary/tasks/G1.md"))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: wiki + "/recipe-box/tasks/G1.md"))
         let listed = ProjectStore.load(settingsURL: settingsFile)
         XCTAssertEqual(listed.problems, [])
         let loaded = try XCTUnwrap(listed.projects.first)
 
         // A role in the project's own folder, and a task started and reviewed for real.
-        try dir.write("wiki/pet-diary/agent-panel/roles/dev.md", "Be brief.")
-        try dir.write("wiki/pet-diary/agent-panel/roles/dev.json", """
+        try dir.write("wiki/recipe-box/agent-panel/roles/dev.md", "Be brief.")
+        try dir.write("wiki/recipe-box/agent-panel/roles/dev.json", """
         {"name":"dev","kind":"interactive","model":"sonnet","effort":"medium","permissionMode":"acceptEdits","outputStyle":"concise","allowedTools":["Read","Edit"],"skills":[],"instructionFile":"dev.md"}
         """)
-        let url = try dir.write("wiki/pet-diary/tasks/T1.md", "---\nid: T1\nproject: pet-diary\nstatus: awaiting-start-approval\nagent:\nbranch: pilot/t1\nfiles:\n  - c.txt\n---\n# T1 · Add c\n\n## Goal\nAdd c.\n\n## Report\nAdded c.\n")
+        let url = try dir.write("wiki/recipe-box/tasks/T1.md", "---\nid: T1\nproject: recipe-box\nstatus: awaiting-start-approval\nagent:\nbranch: pilot/t1\nfiles:\n  - c.txt\n---\n# T1 · Add c\n\n## Goal\nAdd c.\n\n## Report\nAdded c.\n")
         let card = try CardParser.parse(try String(contentsOf: url, encoding: .utf8), url: url)
         let log = ActionLog(fileURL: dir.url.appendingPathComponent("actions.log"))
         let start = StartTaskFlow(project: loaded, scripts: runner, commander: commander, writer: CardWriter(), log: log,
@@ -73,8 +73,8 @@ final class AddProjectIntegrationTests: XCTestCase {
         let started = try await start.start(try start.plan(for: card))
         XCTAssertEqual(started.udid, "", "no simulator for a project that has none")
 
-        let worktree = code + "/pet-diary/.agent-worktrees/pilot-t1"
-        try dir.write("code/pet-diary/.agent-worktrees/pilot-t1/c.txt", "c\n")
+        let worktree = code + "/recipe-box/.agent-worktrees/pilot-t1"
+        try dir.write("code/recipe-box/.agent-worktrees/pilot-t1/c.txt", "c\n")
         try git(worktree, ["add", "c.txt"]); try git(worktree, ["commit", "-q", "-m", "feat: add c"])
         let review = ReviewFlow(project: loaded, scripts: runner, adapter: FakeTerminal(agentsResult: .success([])), commander: commander, writer: CardWriter(), log: log)
         let reloaded = { try CardParser.parse(try String(contentsOf: url, encoding: .utf8), url: url) }
@@ -88,7 +88,7 @@ final class AddProjectIntegrationTests: XCTestCase {
         let plan = try await review.approvalPlan(for: inReview)
         try await review.approve(plan)
         XCTAssertEqual(try reloaded().status, .done)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: code + "/pet-diary/c.txt"))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: code + "/recipe-box/c.txt"))
         let calls = (try? String(contentsOf: state.appendingPathComponent("calls.log"), encoding: .utf8)) ?? ""
         XCTAssertFalse(calls.contains("simctl"), "no simulator is ever asked for")
     }

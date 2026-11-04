@@ -3,7 +3,7 @@ import XCTest
 
 final class ProjectNamingTests: XCTestCase {
     func testASimpleNameBecomesALowercaseSlug() {
-        XCTAssertEqual(ProjectNaming.slug(from: "Pet Diary"), "pet-diary")
+        XCTAssertEqual(ProjectNaming.slug(from: "Recipe Box"), "recipe-box")
     }
 
     func testTurkishLettersAreSimplified() {
@@ -37,7 +37,7 @@ final class ProjectNamingTests: XCTestCase {
     }
 
     func testTheXcodeNameIsPascalCaseWithoutSymbols() {
-        XCTAssertEqual(ProjectNaming.xcodeName(from: "Pet Diary"), "PetDiary")
+        XCTAssertEqual(ProjectNaming.xcodeName(from: "Recipe Box"), "RecipeBox")
         XCTAssertEqual(ProjectNaming.xcodeName(from: "çiçek bahçesi"), "CicekBahcesi")
         XCTAssertEqual(ProjectNaming.xcodeName(from: "my-app v2"), "MyAppV2")
         XCTAssertEqual(ProjectNaming.xcodeName(from: "2048"), "App2048")
@@ -48,18 +48,18 @@ final class ProjectNamingTests: XCTestCase {
     }
 
     func testTheNamesAreBuiltFromTheChosenFolders() throws {
-        let n = try XCTUnwrap(ProjectNaming.names(for: "Pet Diary", repoParent: "/Users/me/GitHub", dataRoot: "/Users/me/wiki/projects"))
-        XCTAssertEqual(n.slug, "pet-diary")
-        XCTAssertEqual(n.repoDir, "/Users/me/GitHub/pet-diary")
-        XCTAssertEqual(n.dataDir, "/Users/me/wiki/projects/pet-diary")
-        XCTAssertEqual(n.xcodeName, "PetDiary")
+        let n = try XCTUnwrap(ProjectNaming.names(for: "Recipe Box", repoParent: "/Users/me/GitHub", dataRoot: "/Users/me/wiki/projects"))
+        XCTAssertEqual(n.slug, "recipe-box")
+        XCTAssertEqual(n.repoDir, "/Users/me/GitHub/recipe-box")
+        XCTAssertEqual(n.dataDir, "/Users/me/wiki/projects/recipe-box")
+        XCTAssertEqual(n.xcodeName, "RecipeBox")
     }
 
     func testCollisionsNameWhatIsAlreadyThere() throws {
-        let n = try XCTUnwrap(ProjectNaming.names(for: "Pet Diary", repoParent: "/g", dataRoot: "/w"))
+        let n = try XCTUnwrap(ProjectNaming.names(for: "Recipe Box", repoParent: "/g", dataRoot: "/w"))
         XCTAssertEqual(ProjectNaming.collisions(of: n, existingIDs: [], fileExists: { _ in false }), [])
-        XCTAssertEqual(ProjectNaming.collisions(of: n, existingIDs: ["pet-diary"], fileExists: { _ in false }).count, 1)
-        XCTAssertTrue(ProjectNaming.collisions(of: n, existingIDs: [], fileExists: { $0 == "/g/pet-diary" })[0].contains("/g/pet-diary"))
-        XCTAssertEqual(ProjectNaming.collisions(of: n, existingIDs: ["pet-diary"], fileExists: { _ in true }).count, 3)
+        XCTAssertEqual(ProjectNaming.collisions(of: n, existingIDs: ["recipe-box"], fileExists: { _ in false }).count, 1)
+        XCTAssertTrue(ProjectNaming.collisions(of: n, existingIDs: [], fileExists: { $0 == "/g/recipe-box" })[0].contains("/g/recipe-box"))
+        XCTAssertEqual(ProjectNaming.collisions(of: n, existingIDs: ["recipe-box"], fileExists: { _ in true }).count, 3)
     }
 }

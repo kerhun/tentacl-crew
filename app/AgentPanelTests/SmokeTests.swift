@@ -33,12 +33,20 @@ final class SmokeTests: XCTestCase {
     func testWordmarkIsBundledAndUsedInTheTopBar() throws {
         let wordmark = try XCTUnwrap(NSImage(named: "Wordmark"), "the Wordmark asset must be in the app bundle")
         XCTAssertGreaterThanOrEqual(wordmark.representations.map(\.pixelsWide).max() ?? 0, 700)
-        // The window is always dark, so the bundled wordmark has light letters in every appearance (a dark-letter variant vanishes on it).
-        guard let cg = wordmark.cgImage(forProposedRect: nil, context: nil, hints: nil), let data = cg.dataProvider?.data, let bytes = CFDataGetBytePtr(data) else { return XCTFail("cannot read the wordmark pixels") }
-        var sum = 0.0, n = 0.0
-        for i in stride(from: 0, to: CFDataGetLength(data) - 3, by: 4) where bytes[i + 3] > 200 { sum += Double(bytes[i]) + Double(bytes[i + 1]) + Double(bytes[i + 2]); n += 3 }
-        XCTAssertGreaterThan(n, 0)
-        XCTAssertGreaterThan(sum / n, 200, "mean letter brightness")
+        // The imageset has two variants (N312): light letters for Dark, dark ink for Light. Resolve each under an explicit appearance, so the result does not depend on the Mac's setting.
+        func meanLetterBrightness(_ name: NSAppearance.Name) throws -> Double {
+            var mean: Double?
+            NSAppearance(named: name)!.performAsCurrentDrawingAppearance {
+                guard let cg = NSImage(named: "Wordmark")?.cgImage(forProposedRect: nil, context: nil, hints: nil), let data = cg.dataProvider?.data, let bytes = CFDataGetBytePtr(data) else { return }
+                var sum = 0.0, n = 0.0
+                for i in stride(from: 0, to: CFDataGetLength(data) - 3, by: 4) where bytes[i + 3] > 200 { sum += Double(bytes[i]) + Double(bytes[i + 1]) + Double(bytes[i + 2]); n += 3 }
+                if n > 0 { mean = sum / n }
+            }
+            return try XCTUnwrap(mean, "cannot read the wordmark pixels under \(name.rawValue)")
+        }
+        let dark = try meanLetterBrightness(.darkAqua), light = try meanLetterBrightness(.aqua)
+        XCTAssertGreaterThan(dark, 200, "mean letter brightness, Dark: \(dark)")
+        XCTAssertLessThan(light, 80, "mean letter brightness, Light: \(light)")
     }
 
     func testTheTopBarShowsTheWordmarkNotPlainText() throws {

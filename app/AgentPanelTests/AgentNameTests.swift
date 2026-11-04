@@ -8,7 +8,7 @@ final class AgentNameTests: XCTestCase {
     }
 
     func testTwoProjectsGiveTheSameTaskDifferentNames() {
-        XCTAssertNotEqual(TaskInput.agentName(role: "dev", task: "T1", projectID: "orchard"), TaskInput.agentName(role: "dev", task: "T1", projectID: "pet-diary"))
+        XCTAssertNotEqual(TaskInput.agentName(role: "dev", task: "T1", projectID: "orchard"), TaskInput.agentName(role: "dev", task: "T1", projectID: "recipe-box"))
     }
 
     func testTheTagNeverEndsWithADashAndTheRoleStaysFirst() {
