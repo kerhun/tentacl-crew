@@ -358,4 +358,38 @@ final class ApproveRequestTests: XCTestCase {
         XCTAssertTrue(r.told.value.contains { $0.pane == "p-new" && $0.text.contains(r.memory.key(project: "d", pane: "p-new")) })
         XCTAssertFalse(r.told.value.contains { $0.pane == "p-new" && $0.text.contains(old) })
     }
+
+    /// N393: through the panel's own wiring (`PanelModel.approveRequests`), a prepare and approve that succeed are not refused as "The panel is closing."
+    func testTheRealPanelWiringApprovesWhenPrepareAndApproveSucceed() async throws {
+        let head = String(repeating: "a", count: 40)
+        for n in ScriptName.allCases { try dir.write("scripts/\(n.rawValue)", "#!/bin/bash\n") }
+        try dir.write("data/tasks/A5.md", "---\nid: A5\nproject: demo\nstatus: review\nagent: dev-a5\nbranch: pilot/a5\nfiles:\n  - a\n---\n# A5 · T\n\n## Report\nDone.\n\n## Review packet\n\nHead: \(head)\n\nBuild: passed (`b`), log: /l\n\nScreenshots:\n- tasks/A5/shots/a.png\n\n## Decision\n")
+        let project = try dir.write("p/demo.json", """
+        {"id":"demo","name":"Demo","repoPath":"/repo","dataDir":"\(dir.url.appendingPathComponent("data").path)","maxParallel":3,
+         "buildCommand":"b","simulator":{"baseDevice":"iPhone 17 Pro"},"sharedFiles":[],"openWith":"Xcode"}
+        """)
+        let settings = try dir.write("settings.json", "{\"projects\":[\"\(project.path)\"],\"scriptsDir\":\"\(dir.url.appendingPathComponent("scripts").path)\"}")
+        let scripts = FakeScripts()
+        scripts.handler = { script, args in
+            switch script {
+            case .merge where args.first == "--inspect":
+                return ScriptResult(status: 0, stdout: "{\"head\":\"\(head)\",\"base\":\"main\",\"repoBranch\":\"main\",\"ahead\":1,\"behind\":0,\"dirtyOverlap\":[],\"worktreeDirty\":false}", stderr: "")
+            case .merge: return ScriptResult(status: 0, stdout: "{\"merged\":\"\(head)\"}", stderr: "")
+            default: return ScriptResult(status: 0, stdout: "UDID-1\n", stderr: "")
+            }
+        }
+        let terminal = FakeTerminal(agentsResult: .success([])), commander = FakeCommander()
+        let m = PanelModel(settingsURL: settings, makeTerminal: { terminal }, opener: RecordingOpener(), makeScripts: { _ in scripts }, makeCommander: { commander },
+                           log: ActionLog(fileURL: dir.url.appendingPathComponent("actions.log")), defaults: makeTestDefaults(),
+                           roleStore: RoleStore(baseDir: dir.url.appendingPathComponent("no-roles")), autopilotStore: AutopilotStore(folder: dir.url.appendingPathComponent("autopilot")))
+        await m.reload()
+        m.watch(of: "demo").autopilot.setMode(.on)
+        m.commandMemory.note("Please approve card A5 and merge it now", to: "p-pm", project: "demo")
+        try dir.write("data/.tentacl/approve-requests/r1.json", String(decoding: try JSONSerialization.data(withJSONObject:
+            ["id": "r1", "requestedBy": "pm", "userWords": "approve card A5 and merge it", "cards": ["A5"]]), as: UTF8.self))
+        await m.approveRequests.process()
+        let log = m.actionLog.read()
+        XCTAssertTrue(log.contains("approve-request r1 approved"), log)
+        XCTAssertFalse(log.contains("panel is closing"), log)
+    }
 }
